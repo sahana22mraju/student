@@ -1,0 +1,81 @@
+swagger: "2.0"
+info:
+  description: "API for managing students in the system"
+  version: "1.0.0"
+  title: "Student Management API"
+paths:
+  /students:
+    get:
+      summary: "Get Students"
+      description: "Retrieve students from the system based on the provided query parameters."
+      operationId: "getStudents"
+      parameters:
+        - name: "firstName"
+          in: "query"
+          description: "Filter students by first name (partial match)."
+          required: false
+          type: "string"
+        - name: "X-Requested-By"
+          in: "header"
+          description: "Custom header for request tracking (optional)."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "List of students found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+        404:
+          description: "No students found"
+
+  /students/{id}:
+    get:
+      summary: "Get Student by ID"
+      description: "Retrieve student details by ID."
+      operationId: "getStudentById"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the student to retrieve"
+          required: true
+          type: "integer"
+        - name: "X-Requested-By"
+          in: "header"
+          description: "Custom header for request tracking (optional)."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Student found"
+          schema:
+            $ref: "#/definitions/Student"
+        404:
+          description: "Student not found"
+
+definitions:
+  Student:
+    type: "object"
+    required:
+      - "id"
+      - "firstName"
+      - "lastName"
+      - "email"
+      - "age"
+    properties:
+      id:
+        type: "integer"
+        example: 1
+      firstName:
+        type: "string"
+        example: "Michael"
+      lastName:
+        type: "string"
+        example: "Johnson"
+      email:
+        type: "string"
+        example: "michael.johnson@example.com"
+      age:
+        type: "integer"
+        example: 21
